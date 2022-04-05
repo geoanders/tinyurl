@@ -108,7 +108,7 @@ class DeleteUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
     }
     else {
       $response->addViolation(
-        $this->t('You do not have permissions to delete urls.')
+        $this->t('You do not have permissions to delete url.')
       );
     }
 

@@ -35,7 +35,7 @@ class UrlResponse extends Response {
    * @return \Drupal\Core\Entity\EntityInterface|null
    *   The url node to be served.
    */
-  public function getUrlNode(): ?EntityInterface {
+  public function getUrlNode() {
     return !empty($this->url) ? $this->url : NULL;
   }
 

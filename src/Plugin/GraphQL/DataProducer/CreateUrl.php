@@ -131,7 +131,7 @@ class CreateUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
     }
     else {
       $response->addViolation(
-        $this->t('You do not have permissions to create urls.')
+        $this->t('You do not have permissions to create url.')
       );
     }
 

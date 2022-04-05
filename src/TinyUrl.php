@@ -43,6 +43,8 @@ class TinyUrl {
    */
   public function generateSlug(int $length = 10): string {
     $random = new Random();
+
+    // Generate and return random machine name.
     return $random->name($length, TRUE);
   }
 
@@ -116,6 +118,7 @@ class TinyUrl {
 
     // Make sure we have a slug.
     if (!empty($slug)) {
+
       // Get url node based on slug and node type.
       /** @var \Drupal\node\Entity\Node $urlNode */
       $urlNode = $this->getUrlBySlug($slug);
