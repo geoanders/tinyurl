@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
-use Drupal\node\Entity\Node;
 use Drupal\tinyurl\Wrappers\Response\UrlResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

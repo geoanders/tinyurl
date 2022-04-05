@@ -32,7 +32,6 @@ class TinyUrl {
     $this->entityTypeManager = $entity_type_manager;
   }
 
-
   /**
    * Generate random slug.
    *
