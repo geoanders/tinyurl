@@ -46,8 +46,7 @@ class UniqueSlugValidator extends ConstraintValidator implements ContainerInject
     // Loop over values in field. Should only be one in this case.
     foreach ($items as $item) {
       // Check to see if slug is not unique. Add error message if so.
-      if (!empty($item->value) && !$this->isSlugUnique($item->value, (int) $items->getEntity()
-          ->id())) {
+      if (!empty($item->value) && !$this->isSlugUnique($item->value, (int) $items->getEntity()->id())) {
         $this->context->addViolation($constraint->message, ['%value' => $item->value]);
       }
     }

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * TinyUrl Service.
+ * The TinyUrl Service.
  */
 class TinyUrl {
 
@@ -31,6 +31,7 @@ class TinyUrl {
   public function __construct(EntityTypeManagerInterface $entity_type_manager) {
     $this->entityTypeManager = $entity_type_manager;
   }
+
 
   /**
    * Generate random slug.
@@ -121,8 +122,7 @@ class TinyUrl {
       $urlNode = $this->getUrlBySlug($slug);
 
       // Make sure we have node object and url field exists/not empty.
-      if ($urlNode && $urlNode->hasField('field_url') && !$urlNode->get('field_url')
-          ->isEmpty()) {
+      if ($urlNode && $urlNode->hasField('field_url') && !$urlNode->get('field_url')->isEmpty()) {
 
         // Check to see if we have uri.
         if (!empty($urlNode->get('field_url')->getValue()[0]['uri'])) {

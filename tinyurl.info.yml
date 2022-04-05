@@ -3,6 +3,7 @@ type: module
 description: 'A module that exposes a web service layer to generate tiny urls.'
 package: Web Services
 core: 8.x
+core_version_requirement: ^8 || ^9
 php: 7.4
 dependencies:
   - graphql:graphql

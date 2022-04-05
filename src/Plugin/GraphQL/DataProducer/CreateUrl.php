@@ -2,11 +2,10 @@
 
 namespace Drupal\tinyurl\Plugin\GraphQL\DataProducer;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
-use Drupal\node\Entity\Node;
-use Drupal\tinyurl\TinyUrl;
 use Drupal\tinyurl\Wrappers\Response\UrlResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -37,24 +36,11 @@ class CreateUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
   protected $currentUser;
 
   /**
-   * The TinyUrl service.
+   * The Entity type manager service.
    *
-   * @var \Drupal\tinyurl\TinyUrl
+   * @var \Drupal\Core\Entity\EntityTypeManager
    */
-  protected $tinyUrl;
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('current_user'),
-      $container->get('tinyurl')
-    );
-  }
+  protected $entityTypeManager;
 
   /**
    * CreateUrl constructor.
@@ -67,13 +53,26 @@ class CreateUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
    *   The plugin implementation definition.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user.
-   * @param \Drupal\tinyurl\TinyUrl $tiny_url
-   *   The TinyUrl service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The Entity type manager service.
    */
-  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, AccountInterface $current_user, TinyUrl $tiny_url) {
+  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentUser = $current_user;
-    $this->tinyUrl = $tiny_url;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('current_user'),
+      $container->get('entity_type.manager')
+    );
   }
 
   /**
@@ -112,9 +111,9 @@ class CreateUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
       }
 
       // Create url node.
-      $node = Node::create($values);
+      $node = $this->entityTypeManager->getStorage('node')->create($values);
 
-      // Validate node
+      // Validate node.
       $violations = $node->validate();
       if ($violations->count() > 0) {
         // Add violations to response.

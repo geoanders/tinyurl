@@ -43,9 +43,12 @@ class TinyUrlController extends ControllerBase {
    * Slug redirection.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
    * @param string $slug
+   *   The slug.
    *
    * @return \Symfony\Component\HttpFoundation\Response
+   *   Returns the response.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException

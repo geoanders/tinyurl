@@ -8,6 +8,8 @@ use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
 use Drupal\tinyurl\Wrappers\Response\UrlResponse;
 
 /**
+ * The Url Schema Extension.
+ *
  * @SchemaExtension(
  *   id = "url_extension",
  *   name = "TinyUrl extension",
@@ -39,8 +41,10 @@ class UrlSchemaExtension extends SdlSchemaExtensionPluginBase {
   /**
    * Add query fields.
    *
-   * @param ResolverRegistryInterface $registry
-   * @param ResolverBuilder $builder
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
    */
   protected function addQueryFields(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addFieldResolver('Query', 'url',
@@ -54,8 +58,10 @@ class UrlSchemaExtension extends SdlSchemaExtensionPluginBase {
   /**
    * Add url mutations.
    *
-   * @param ResolverRegistryInterface $registry
-   * @param ResolverBuilder $builder
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
    */
   protected function addUrlMutations(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addFieldResolver('Mutation', 'createUrl',
@@ -72,8 +78,10 @@ class UrlSchemaExtension extends SdlSchemaExtensionPluginBase {
   /**
    * Add url responses.
    *
-   * @param ResolverRegistryInterface $registry
-   * @param ResolverBuilder $builder
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
    */
   protected function addUrlResponses(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addFieldResolver('UrlResponse', 'url',
@@ -93,7 +101,9 @@ class UrlSchemaExtension extends SdlSchemaExtensionPluginBase {
    * Add url fields.
    *
    * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
    * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
    */
   protected function addUrlFields(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addFieldResolver('Url', 'id',

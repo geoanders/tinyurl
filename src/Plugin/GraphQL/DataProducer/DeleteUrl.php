@@ -2,6 +2,7 @@
 
 namespace Drupal\tinyurl\Plugin\GraphQL\DataProducer;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
@@ -10,7 +11,7 @@ use Drupal\tinyurl\Wrappers\Response\UrlResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Deletes an existing url entity.
+ * Deletes an existing url node.
  *
  * @DataProducer(
  *   id = "delete_url",
@@ -36,19 +37,14 @@ class DeleteUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
   protected $currentUser;
 
   /**
-   * {@inheritdoc}
+   * The Entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManager
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('current_user')
-    );
-  }
+  protected $entityTypeManager;
 
   /**
-   * CreateUrl constructor.
+   * DeleteUrl constructor.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -58,10 +54,26 @@ class DeleteUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
    *   The plugin implementation definition.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   The current user.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The Entity type manager service.
    */
-  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, AccountInterface $current_user) {
+  public function __construct(array $configuration, string $plugin_id, array $plugin_definition, AccountInterface $current_user, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->currentUser = $current_user;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('current_user'),
+      $container->get('entity_type.manager')
+    );
   }
 
   /**
@@ -83,7 +95,7 @@ class DeleteUrl extends DataProducerPluginBase implements ContainerFactoryPlugin
     if ($this->currentUser->hasPermission("delete any url content")) {
 
       // Create url node.
-      $node = Node::load($id);
+      $node = $this->entityTypeManager->getStorage('node')->load($id);
       if ($node && $node->id()) {
         // Set url node to show that we found it.
         $response->setUrlNode($node);

@@ -18,7 +18,7 @@ class UniqueSlug extends Constraint {
   /**
    * The message that will be shown if the value is not unique.
    *
-   * @var string $message
+   * @var string
    */
   public $message = 'The slug %value is not unique.';
 
