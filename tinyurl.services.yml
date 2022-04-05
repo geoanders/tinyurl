@@ -1,0 +1,4 @@
+services:
+  tinyurl:
+    class: Drupal\tinyurl\TinyUrl
+    arguments: [ '@entity_type.manager' ]

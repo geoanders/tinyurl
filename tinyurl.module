@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Contains tinyurl.module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function tinyurl_entity_bundle_field_info_alter(&$fields, EntityTypeInterface $entity_type, $bundle) {
+  // Make sure it's a node and bundle of url.
+  if ($entity_type->id() == 'node' && $bundle == 'url') {
+
+    // Add constraint against slug field.
+    if (isset($fields['field_slug'])) {
+      $fields['field_slug']->addConstraint('UniqueSlug', []);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function tinyurl_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Make sure we're on a node url add/edit form.
+  if ($form_id == 'node_url_edit_form' || $form_id == 'node_url_form') {
+
+    // Alter description since it's missing.
+    $form['field_slug']['widget'][0]['value']['#description'] = t('If empty, slug will be generated on save.');
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function tinyurl_node_presave(NodeInterface $node) {
+  // Make sure we are dealing with an url node bundle.
+  if ($node->bundle() == 'url') {
+
+    // Check for slug field. If empty, generate random slug.
+    if ($node->hasField('field_slug') && $node->get('field_slug')->isEmpty()) {
+
+      /** @var \Drupal\tinyurl\TinyUrl $tinyUrl */
+      $tinyUrl = \Drupal::service('tinyurl');
+      // Generate the slug.
+      $node->set('field_slug', $tinyUrl->generateSlug());
+    }
+  }
+}

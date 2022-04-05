@@ -1,0 +1,8 @@
+extend type Query {
+  url(id: Int!): Url
+}
+
+extend type Mutation {
+  createUrl(data: UrlInput): UrlResponse
+  deleteUrl(id: Int!): UrlResponse
+}

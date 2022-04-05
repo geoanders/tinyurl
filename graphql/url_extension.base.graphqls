@@ -1,0 +1,19 @@
+type Mutation
+
+type UrlResponse {
+  errors: [Violation]
+  url: Url
+}
+
+scalar Violation
+
+type Url {
+  id: Int!
+  slug: String
+  url: String
+}
+
+input UrlInput {
+  slug: String
+  url: String
+}

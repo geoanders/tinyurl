@@ -1,0 +1,8 @@
+tinyurl.slug:
+  path: '/s/{slug}'
+  defaults:
+    _controller: '\Drupal\tinyurl\Controller\TinyUrlController::slugRedirect'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: FALSE
