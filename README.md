@@ -7,6 +7,21 @@ GraphQL for querying, adding, and removing url nodes.
 
 Requires GraphQL module and Drupal core node.
 
+On Url node, url field is required. Slug is optional, but will be generated if
+left empty.
+
+## Usage
+
+Provides route/alias to allow for short urls, which will redirect to the final
+destination/url configured on the url node.
+
+See below:
+
+`/s/<slug>`
+
+Swap out <slug> with the entered or generated slug. Redirection will take place
+for internal and external urls.
+
 ## GraphQL Examples
 
 See below for examples.

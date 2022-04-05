@@ -1,8 +1,9 @@
 name: Tiny Url Generator
 type: module
 description: 'A module that exposes a web service layer to generate tiny urls.'
-package: Web services
+package: Web Services
 core: 8.x
+php: 7.4
 dependencies:
   - graphql:graphql
   - node:node
