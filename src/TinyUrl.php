@@ -58,7 +58,7 @@ class TinyUrl {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  private function getUrlBySlug(string $slug) {
+  public function getUrlBySlug(string $slug) {
     $nodes = $this->entityTypeManager->getStorage('node')->loadByProperties([
       'field_slug' => $slug,
       'type' => 'url',
