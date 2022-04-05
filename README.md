@@ -54,6 +54,7 @@ mutation {
       slug
       url
     }
+    errors
   }
 }
 ```
